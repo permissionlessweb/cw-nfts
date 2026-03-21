@@ -258,7 +258,7 @@ pub fn query_operator(
 
     if let Some(expires) = info {
         if !include_expired_approval && expires.is_expired(&env.block) {
-            return Err(StdError::not_found("Approval not found"));
+            return Err(StdError::msg("not found: Approval not found"));
         }
 
         return Ok(OperatorResponse {
@@ -269,7 +269,7 @@ pub fn query_operator(
         });
     }
 
-    Err(StdError::not_found("Approval not found"))
+    Err(StdError::msg("not found: Approval not found"))
 }
 
 /// operators returns all operators owner given access to
@@ -331,7 +331,7 @@ pub fn query_approval(
         .collect();
 
     if filtered.is_empty() {
-        return Err(StdError::not_found("Approval not found"));
+        return Err(StdError::msg("not found: Approval not found"));
     }
     // we expect only one item
     let approval = filtered[0].clone();

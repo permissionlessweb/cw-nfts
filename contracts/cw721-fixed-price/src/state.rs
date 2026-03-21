@@ -1,5 +1,5 @@
 use cosmwasm_schema::cw_serde;
-use cosmwasm_std::{Addr, Uint128};
+use cosmwasm_std::{Addr,  Uint256};
 use cw721::DefaultOptionalNftExtension;
 use cw_storage_plus::Item;
 
@@ -9,7 +9,7 @@ pub struct Config {
     pub cw20_address: Addr,
     pub cw721_address: Option<Addr>,
     pub max_tokens: u32,
-    pub unit_price: Uint128,
+    pub unit_price: Uint256,
     pub name: String,
     pub symbol: String,
     pub token_uri: String,

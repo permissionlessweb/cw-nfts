@@ -1,5 +1,5 @@
 use cosmwasm_schema::{cw_serde, QueryResponses};
-use cosmwasm_std::{Addr, Uint128};
+use cosmwasm_std::{Addr, Uint128, Uint256};
 use cw20::Cw20ReceiveMsg;
 use cw721::DefaultOptionalNftExtension;
 
@@ -39,7 +39,7 @@ pub struct ConfigResponse {
     pub cw20_address: Addr,
     pub cw721_address: Option<Addr>,
     pub max_tokens: u32,
-    pub unit_price: Uint128,
+    pub unit_price: Uint256,
     pub name: String,
     pub symbol: String,
     pub token_uri: String,
