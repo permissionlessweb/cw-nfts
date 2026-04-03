@@ -18,15 +18,15 @@ cosmwasm-schema = "^3.0.4"
 cosmwasm-std    = "^3.0.4"
 cw-multi-test   = { version = "^3.0.1", features = ["cosmwasm_2_1"] }
 # cw-ownable      = { version = "^2.1" }
-cw-ownable      = { version = "3.0.1", git = "https://github.com/permissionlessweb/cw-plus-plus" }
+cw-ownable      = { path = "../cw-plus-plus/packages/ownable" }
 cw-storage-plus = "^3.0.1"
-cw-utils        = "^3.0.0"
-cw2             = "^3.0.0"
+cw-utils        = { path = "../cw-minus/packages/cw-utils" }
+cw2             = { path = "../cw-minus/packages/cw2" }
 #cw20            = "^2.0"
-cw20            = { version = "3.0.0", git = "https://github.com/permissionlessweb/cw-plus" }
+cw20            = { path = "../cw-plus/packages/cw20" }
 cw721           = { version = "0.22.0", path = "./packages/cw721" }
 cw721-base      = { version = "0.22.0", path = "./contracts/cw721-base" }
-schemars        = "^0.8"
+schemars        = "0.8.22"
 serde           = { version = "^1.0", default-features = false, features = ["derive"] }
 sha2            = "^0.10"
 thiserror       = "^1.0"
