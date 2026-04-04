@@ -24,8 +24,8 @@ cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", branch = "ma
 cw2 = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
 #cw20            = "^2.0"
 cw20 = { git = "https://github.com/permissionlessweb/cw-plus", branch = "main" }
-cw721 = { version = "0.19.0", path = "packages/cw721" }
-cw721-base = { version = "0.19.0", path = "contracts/cw721-base" }
+cw721 = { path = "./packages/cw721" }
+cw721-base = { path = "./contracts/cw721-base" }
 schemars        = "0.8.22"
 serde           = { version = "^1.0", default-features = false, features = ["derive"] }
 sha2            = "^0.10"
