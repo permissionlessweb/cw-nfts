@@ -18,14 +18,14 @@ cosmwasm-schema = { git = "https://github.com/permissionlessweb/cosmwasm", branc
 cosmwasm-std = { git = "https://github.com/permissionlessweb/cosmwasm", branch = "mvp" }
 cw-multi-test = { git = "https://github.com/permissionlessweb/cw-multi-test", branch = "mvp" }
 # cw-ownable      = { version = "^2.1" }
-cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", branch = "main" }
+cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", branch = "feat/mvp" }
 cw-storage-plus = { git = "https://github.com/permissionlessweb/cw-storage-plus", branch = "mvp" }
 cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
 cw2 = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
 #cw20            = "^2.0"
 cw20 = { git = "https://github.com/permissionlessweb/cw-plus", branch = "main" }
-cw721 = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "main" }
-cw721-base = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "main" }
+cw721 = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "cw3" }
+cw721-base = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "cw3" }
 schemars        = "0.8.22"
 serde           = { version = "^1.0", default-features = false, features = ["derive"] }
 sha2            = "^0.10"
