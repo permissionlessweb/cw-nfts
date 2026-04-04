@@ -14,18 +14,18 @@ version       = "0.22.0"
 [workspace.dependencies]
 anyhow          = "^1.0"
 bech32          = "^0.11"
-cosmwasm-schema = "^3.0.4"
-cosmwasm-std    = "^3.0.4"
-cw-multi-test   = { version = "^3.0.1", features = ["cosmwasm_2_1"] }
+cosmwasm-schema = { git = "https://github.com/permissionlessweb/cosmwasm", branch = "mvp" }
+cosmwasm-std = { git = "https://github.com/permissionlessweb/cosmwasm", branch = "mvp" }
+cw-multi-test = { git = "https://github.com/permissionlessweb/cw-multi-test", branch = "mvp" }
 # cw-ownable      = { version = "^2.1" }
-cw-ownable      = { path = "../cw-plus-plus/packages/ownable" }
-cw-storage-plus = "^3.0.1"
-cw-utils        = { path = "../cw-minus/packages/cw-utils" }
-cw2             = { path = "../cw-minus/packages/cw2" }
+cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", branch = "main" }
+cw-storage-plus = { git = "https://github.com/permissionlessweb/cw-storage-plus", branch = "mvp" }
+cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
+cw2 = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
 #cw20            = "^2.0"
-cw20            = { path = "../cw-plus/packages/cw20" }
-cw721           = { version = "0.22.0", path = "./packages/cw721" }
-cw721-base      = { version = "0.22.0", path = "./contracts/cw721-base" }
+cw20 = { git = "https://github.com/permissionlessweb/cw-plus", branch = "main" }
+cw721 = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "main" }
+cw721-base = { git = "https://github.com/permissionlessweb/cw-nfts", branch = "main" }
 schemars        = "0.8.22"
 serde           = { version = "^1.0", default-features = false, features = ["derive"] }
 sha2            = "^0.10"
