@@ -14,18 +14,18 @@ version       = "0.22.0"
 [workspace.dependencies]
 anyhow          = "^1.0"
 bech32          = "^0.11"
-cosmwasm-schema = { git = "https://github.com/permissionlessweb/cosmwasm", branch = "mvp" }
-cosmwasm-std = { git = "https://github.com/permissionlessweb/cosmwasm", branch = "mvp" }
-cw-multi-test = { git = "https://github.com/permissionlessweb/cw-multi-test", branch = "mvp" }
+cosmwasm-schema = { path = "../ZK/cw/zk-cosmwasm/packages/schema" }
+cosmwasm-std = { path = "../ZK/cw/zk-cosmwasm/packages/std" }
+cw-multi-test = { path = "../cw-multi-test-fork" }
 # cw-ownable      = { version = "^2.1" }
-cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", branch = "feat/mvp" }
-cw-storage-plus = { git = "https://github.com/permissionlessweb/cw-storage-plus", branch = "mvp" }
-cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
-cw2 = { git = "https://github.com/permissionlessweb/cw-minus", branch = "main" }
+cw-ownable = { path = "../ZK/cw/zk-plus-plus/packages/ownable" }
+cw-storage-plus = { path = "../ZK/cw/zk-storage-plus" }
+cw-utils = { path = "../ZK/cw/zk-cw-minus/packages/cw-utils" }
+cw2 = { path = "../ZK/cw/zk-cw-minus/packages/cw2" }
 #cw20            = "^2.0"
-cw20 = { git = "https://github.com/permissionlessweb/cw-plus", branch = "main" }
-cw721 = { path = "./packages/cw721" }
-cw721-base = { path = "./contracts/cw721-base" }
+cw20 = { path = "../cw-plus/packages/cw20" }
+cw721 = { path = "packages/cw721" }
+cw721-base = { path = "contracts/cw721-base" }
 schemars        = "0.8.22"
 serde           = { version = "^1.0", default-features = false, features = ["derive"] }
 sha2            = "^0.10"
