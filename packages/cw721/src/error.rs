@@ -5,7 +5,7 @@ use cw_ownable::OwnershipError;
 use thiserror::Error;
 use url::ParseError;
 
-#[derive(Error, Debug, PartialEq)]
+#[derive(Error, Debug)]
 pub enum Cw721ContractError {
     #[error(transparent)]
     ParseError(#[from] ParseError),
@@ -90,4 +90,17 @@ pub enum Cw721ContractError {
 
     #[error("Internal error. Missing argument: Info")]
     NoInfo,
+}
+
+
+impl PartialEq for Cw721ContractError {
+    fn ne(&self, other: &Self) -> bool {
+        !self.eq(other)
+    }
+    
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            _ => core::mem::discriminant(self) == core::mem::discriminant(other),
+        }
+    }
 }

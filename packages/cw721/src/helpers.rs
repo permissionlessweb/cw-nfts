@@ -5,8 +5,8 @@ use crate::{
     DefaultOptionalCollectionExtension, DefaultOptionalCollectionExtensionMsg,
     DefaultOptionalNftExtension, DefaultOptionalNftExtensionMsg,
 };
-use cosmwasm_schema::cw_serde;
 use cosmwasm_std::{Addr, Empty};
+use serde::{Deserialize, Serialize};
 
 /// Returns "empty" if the string is empty, otherwise the string itself
 pub fn value_or_empty(value: &str) -> String {
@@ -24,7 +24,7 @@ pub fn value_or_empty(value: &str) -> String {
 pub type Cw721Contract = DefaultCw721Helper;
 
 /// Opionated version of generic `Cw721Helper` with default extensions.
-#[cw_serde]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct DefaultCw721Helper(
     pub Addr,
     pub PhantomData<DefaultOptionalNftExtension>,
@@ -65,7 +65,7 @@ impl
 }
 
 /// Opionated version of generic `Cw721Helper` with empty extensions.
-#[cw_serde]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct EmptyCw721Helper(
     pub Addr,
     pub PhantomData<Empty>,
@@ -98,7 +98,7 @@ impl Cw721Calls<Empty, Empty, Empty, Empty, Empty, Empty> for EmptyCw721Helper {
 
 /// `Cw721Helper` with generic extionsions. See `DefaultCw721Helper` and `EmptyCw721Helper` for
 /// specific use cases.
-#[cw_serde]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 pub struct Cw721Helper<
     TNftExtension,
     TNftExtensionMsg,

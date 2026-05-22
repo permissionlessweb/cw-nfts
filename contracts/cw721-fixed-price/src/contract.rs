@@ -4,8 +4,7 @@ use crate::state::{Config, CONFIG};
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
 use cosmwasm_std::{
-    to_json_binary, Addr, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Reply, ReplyOn, Response,
-    StdResult, SubMsg, Uint128, WasmMsg,
+    Addr, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Reply, ReplyOn, Response, StdResult, SubMsg, Uint128, Uint256, WasmMsg, to_json_binary
 };
 use cw2::set_contract_version;
 use cw20::Cw20ReceiveMsg;
@@ -44,7 +43,7 @@ pub fn instantiate(
     let config = Config {
         cw721_address: None,
         cw20_address: msg.cw20_address,
-        unit_price: msg.unit_price,
+        unit_price: msg.unit_price.into(),
         max_tokens: msg.max_tokens,
         owner: info.sender,
         name: msg.name.clone(),
@@ -145,7 +144,7 @@ pub fn execute_receive(
     deps: DepsMut,
     info: MessageInfo,
     sender: String,
-    amount: Uint128,
+    amount: Uint256,
     _msg: Binary,
 ) -> Result<Response, ContractError> {
     let mut config = CONFIG.load(deps.storage)?;
@@ -318,7 +317,7 @@ mod tests {
                 cw20_address: msg.cw20_address,
                 cw721_address: Some(addrs.addr(NFT_CONTRACT_ADDR)),
                 max_tokens: msg.max_tokens,
-                unit_price: msg.unit_price,
+                unit_price: msg.unit_price.into(),
                 name: msg.name,
                 symbol: msg.symbol,
                 token_uri: msg.token_uri,
@@ -431,7 +430,7 @@ mod tests {
 
         let msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
             sender: addrs.addr("minter").to_string(),
-            amount: Uint128::new(1),
+            amount: Uint128::new(1).into(),
             msg: [].into(),
         });
         let contract = addrs.addr(MOCK_CONTRACT_ADDR);
@@ -618,7 +617,7 @@ mod tests {
 
         let msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
             sender: addrs.addr("minter").to_string(),
-            amount: Uint128::new(1),
+            amount: Uint128::new(1).into(),
             msg: [].into(),
         });
         let contract = deps.api.addr_make(MOCK_CONTRACT_ADDR);
@@ -661,7 +660,7 @@ mod tests {
 
         let msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
             sender: addrs.addr("minter").to_string(),
-            amount: Uint128::new(1),
+            amount: Uint128::new(1).into(),
             msg: [].into(),
         });
 
@@ -724,7 +723,7 @@ mod tests {
         // Test token transfer from invalid token contract
         let msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
             sender: String::from("minter"),
-            amount: Uint128::new(1),
+            amount: Uint128::new(1).into(),
             msg: [].into(),
         });
         let info = message_info(&deps.api.addr_make("unauthorized-token"), &[]);
@@ -789,7 +788,7 @@ mod tests {
         // Test token transfer from invalid token contract
         let msg = ExecuteMsg::Receive(Cw20ReceiveMsg {
             sender: addrs.addr("minter").to_string(),
-            amount: Uint128::new(100),
+            amount: Uint128::new(100).into(),
             msg: [].into(),
         });
         let contract = addrs.addr(MOCK_CONTRACT_ADDR);

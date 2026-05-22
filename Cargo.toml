@@ -1,5 +1,5 @@
 [workspace]
-members  = ["packages/*", "contracts/*"]
+members  = ["contracts/*", "packages/*"]
 resolver = "2"
 
 [workspace.package]
@@ -14,21 +14,33 @@ version       = "0.22.0"
 [workspace.dependencies]
 anyhow          = "^1.0"
 bech32          = "^0.11"
-cosmwasm-schema = "^2.2"
-cosmwasm-std    = "^2.2"
-cw-multi-test   = { version = "^2.2", features = ["cosmwasm_2_1"] }
-cw-ownable      = { version = "^2.1" }
-cw-storage-plus = "^2.0"
-cw-utils        = "^2.0"
-cw2             = "^2.0"
-cw20            = "^2.0"
-cw721           = { version = "0.22.0", path = "./packages/cw721" }
-cw721-base      = { version = "0.22.0", path = "./contracts/cw721-base" }
-schemars        = "^0.8"
-serde           = { version = "^1.0", default-features = false, features = ["derive"] }
-sha2            = "^0.10"
-thiserror       = "^1.0"
-url             = "^2.5"
+cosmwasm-schema = { path = "../cosmwasm/packages/schema" }
+cosmwasm-std = { path = "../cosmwasm/packages/std" }
+cw-multi-test = { package = "abstract-cw-multi-test", path = "../cw-multi-test-fork" }
+cw-ownable = { path = "../cw-plus-plus/packages/ownable" }
+cw-storage-plus = { path = "../cw-storage-plus" }
+cw-utils = { path = "../cw-minus/packages/cw-utils" }
+cw2 = { path = "../cw-minus/packages/cw2" }
+cw20 = { path = "../cw-plus/packages/cw20" }
+cw721 = { path = "packages/cw721" }
+cw721-base = { path = "contracts/cw721-base" }
+schemars = "0.8.22"
+serde = { version = "^1.0", default-features = false, features = ["derive"] }
+sha2 = "^0.10"
+thiserror = "^1.0"
+url = "^2.5"
+
+[patch.'https://github.com/permissionlessweb/cw-nfts']
+cw721 = { path = "packages/cw721" }
+cw721-base = { path = "contracts/cw721-base" }
+
+[profile.release]
+debug            = false
+debug-assertions = false
+lto              = true
+opt-level        = "s"
+overflow-checks  = true
+rpath            = false
 
 [profile.release.package.cw721-base]
 codegen-units = 1
@@ -57,11 +69,3 @@ incremental   = false
 [profile.release.package.cw2981-royalties]
 codegen-units = 1
 incremental   = false
-
-[profile.release]
-debug            = false
-debug-assertions = false
-lto              = true
-opt-level        = "s"
-overflow-checks  = true
-rpath            = false
