@@ -32,7 +32,7 @@ pub mod entry {
 
     #[cfg(not(feature = "library"))]
     use cosmwasm_std::entry_point;
-    use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, Response};
+    use cosmwasm_std::{Binary, Deps, DepsMut, Env, MessageInfo, MigrateInfo, Response};
     use cw721::traits::{Cw721Execute, Cw721Query};
     use error::ContractError;
     use msg::{ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
@@ -66,7 +66,12 @@ pub mod entry {
     }
 
     #[cfg_attr(not(feature = "library"), entry_point)]
-    pub fn migrate(deps: DepsMut, env: Env, msg: MigrateMsg) -> Result<Response, ContractError> {
+    pub fn migrate(
+        deps: DepsMut,
+        env: Env,
+        msg: MigrateMsg,
+        info: MigrateInfo,
+    ) -> Result<Response, ContractError> {
         let contract = Cw721BaseContract::default();
         contract.migrate(deps, env, msg, CONTRACT_NAME, CONTRACT_VERSION)
     }

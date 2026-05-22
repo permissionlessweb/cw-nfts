@@ -12,7 +12,7 @@ use crate::{
     DefaultOptionalNftExtension, DefaultOptionalNftExtensionMsg, NftExtensionMsg,
 };
 use anyhow::Result;
-use cosmwasm_std::testing::{mock_dependencies, MockApi};
+use cosmwasm_std::{MigrateInfo, testing::{MockApi, mock_dependencies}};
 use cosmwasm_std::{
     Addr, Binary, Decimal, Deps, DepsMut, Empty, Env, MessageInfo, QuerierWrapper, Response,
     Timestamp,
@@ -85,6 +85,7 @@ pub fn migrate(
     deps: DepsMut,
     env: Env,
     msg: Cw721MigrateMsg,
+    info: MigrateInfo,
 ) -> Result<Response, Cw721ContractError> {
     let contract = Cw721OnchainExtensions::default();
     contract.migrate(deps, env, msg, "contract_name", "contract_version")
