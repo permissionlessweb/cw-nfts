@@ -70,7 +70,7 @@ pub mod entry {
         deps: DepsMut,
         env: Env,
         msg: MigrateMsg,
-        info: MigrateInfo,
+        _info: MigrateInfo,
     ) -> Result<Response, ContractError> {
         let contract = Cw721BaseContract::default();
         contract.migrate(deps, env, msg, CONTRACT_NAME, CONTRACT_VERSION)
