@@ -14,14 +14,14 @@ version       = "0.22.0"
 [workspace.dependencies]
 anyhow          = "^1.0"
 bech32          = "^0.11"
-cosmwasm-schema = { path = "../cosmwasm/packages/schema" }
-cosmwasm-std = { path = "../cosmwasm/packages/std" }
-cw-multi-test = { package = "abstract-cw-multi-test", path = "../cw-multi-test-fork" }
-cw-ownable = { path = "../cw-plus-plus/packages/ownable" }
-cw-storage-plus = { path = "../cw-storage-plus" }
-cw-utils = { path = "../cw-minus/packages/cw-utils" }
-cw2 = { path = "../cw-minus/packages/cw2" }
-cw20 = { path = "../cw-plus/packages/cw20" }
+cosmwasm-schema = { git = "https://github.com/permissionlessweb/cosmwasm", rev = "e20646e2d9a9c4f93e993eb0656afa795f6e387a" }
+cosmwasm-std = { git = "https://github.com/permissionlessweb/cosmwasm", rev = "e20646e2d9a9c4f93e993eb0656afa795f6e387a" }
+cw-multi-test = { package = "abstract-cw-multi-test", git = "https://github.com/permissionlessweb/cw-multi-test-fork", rev = "cbf6c519e16840ba2454553ff117f482d539b4cd" }
+cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", rev = "5b3f80d8c4a9cc99e92bd214b49730efeb3032ec" }
+cw-storage-plus = { git = "https://github.com/permissionlessweb/cw-storage-plus", rev = "cf066f8ca57cc30a7cf8f50fca9cf6e18291d71a" }
+cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", rev = "c5c680ddc3d896cc746618d7ad9b93e0f8271461" }
+cw2 = { git = "https://github.com/permissionlessweb/cw-minus", rev = "c5c680ddc3d896cc746618d7ad9b93e0f8271461" }
+cw20 = { git = "https://github.com/permissionlessweb/cw-plus", rev = "f7ef1aaafd368d811f268cf47360a7d808e74102" }
 cw721 = { path = "packages/cw721" }
 cw721-base = { path = "contracts/cw721-base" }
 schemars = "0.8.22"
@@ -33,6 +33,26 @@ url = "^2.5"
 [patch.'https://github.com/permissionlessweb/cw-nfts']
 cw721 = { path = "packages/cw721" }
 cw721-base = { path = "contracts/cw721-base" }
+
+[patch.'https://github.com/permissionlessweb/cosmwasm']
+cosmwasm-schema = { path = "../cosmwasm/packages/schema" }
+cosmwasm-std = { path = "../cosmwasm/packages/std" }
+
+[patch.'https://github.com/permissionlessweb/cw-multi-test-fork']
+abstract-cw-multi-test = { path = "../cw-multi-test-fork" }
+
+[patch.'https://github.com/permissionlessweb/cw-plus-plus']
+cw-ownable = { path = "../cw-plus-plus/packages/ownable" }
+
+[patch.'https://github.com/permissionlessweb/cw-storage-plus']
+cw-storage-plus = { path = "../cw-storage-plus" }
+
+[patch.'https://github.com/permissionlessweb/cw-minus']
+cw-utils = { path = "../cw-minus/packages/cw-utils" }
+cw2 = { path = "../cw-minus/packages/cw2" }
+
+[patch.'https://github.com/permissionlessweb/cw-plus']
+cw20 = { path = "../cw-plus/packages/cw20" }
 
 [profile.release]
 debug            = false
