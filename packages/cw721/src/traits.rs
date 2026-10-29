@@ -156,7 +156,7 @@ pub trait Cw721Execute<
     TNftExtensionMsg: Cw721CustomMsg + StateFactory<TNftExtension>,
     TCollectionExtension: Cw721State + ToAttributesState + FromAttributesState,
     TCollectionExtensionMsg: Cw721CustomMsg + StateFactory<TCollectionExtension>,
-    TCustomResponseMsg: CustomMsg,
+    TCustomResponseMsg: CustomMsg + schemars::JsonSchema,
 {
     fn instantiate_with_version(
         &self,

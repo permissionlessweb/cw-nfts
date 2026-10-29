@@ -30,4 +30,4 @@ serde           = { workspace = true }
 thiserror       = { workspace = true }
 
 [dev-dependencies]
-prost = "0.10"
+prost = "0.14.3"

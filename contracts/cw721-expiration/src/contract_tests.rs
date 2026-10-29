@@ -1,7 +1,7 @@
 use cosmwasm_std::testing::{message_info, mock_dependencies, mock_env, MockApi};
 
 use cosmwasm_std::{
-    from_json, to_json_binary, Addr, CosmosMsg, DepsMut, MessageInfo, Response, StdError, WasmMsg,
+    from_json, to_json_binary, Addr, CosmosMsg, DepsMut, MessageInfo, Response, WasmMsg,
 };
 
 use crate::state::DefaultCw721ExpirationContract;
@@ -1016,7 +1016,7 @@ fn test_approve_all_revoke_all() {
         true,
     );
     match res {
-        Err(StdError::NotFound { kind, .. }) => assert_eq!(kind, "Approval not found"),
+        Err(err) => assert!(err.to_string().contains("Approval not found")),
         _ => panic!("Unexpected error"),
     }
 
@@ -1122,7 +1122,7 @@ fn test_approve_all_revoke_all() {
         true,
     );
     match res {
-        Err(StdError::NotFound { kind, .. }) => assert_eq!(kind, "Approval not found"),
+        Err(err) => assert!(err.to_string().contains("Approval not found")),
         _ => panic!("Unexpected error"),
     }
 
@@ -1174,7 +1174,7 @@ fn test_approve_all_revoke_all() {
     );
 
     match res {
-        Err(StdError::NotFound { kind, .. }) => assert_eq!(kind, "Approval not found"),
+        Err(err) => assert!(err.to_string().contains("Approval not found")),
         _ => panic!("Unexpected error"),
     }
 }

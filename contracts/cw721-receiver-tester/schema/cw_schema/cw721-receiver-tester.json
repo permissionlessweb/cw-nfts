@@ -1,0 +1,63 @@
+{
+  "contract_name": "cw721-receiver-tester",
+  "contract_version": "0.22.0",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "type": "v1",
+    "root": 0,
+    "definitions": [
+      {
+        "name": "cw721_receiver_tester_msg_InstantiateMsg",
+        "type": "struct",
+        "properties": {}
+      }
+    ]
+  },
+  "execute": {
+    "type": "v1",
+    "root": 0,
+    "definitions": [
+      {
+        "name": "cw721_receiver_tester_msg_ExecuteMsg",
+        "type": "enum",
+        "cases": {
+          "receive_nft": {
+            "type": "tuple",
+            "items": [
+              1
+            ]
+          }
+        }
+      },
+      {
+        "name": "cw721_receiver_Cw721ReceiveMsg",
+        "description": "Cw721ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg",
+        "type": "struct",
+        "properties": {
+          "msg": {
+            "value": 3
+          },
+          "sender": {
+            "value": 2
+          },
+          "token_id": {
+            "value": 2
+          }
+        }
+      },
+      {
+        "name": "String",
+        "type": "string"
+      },
+      {
+        "name": "cosmwasm_std_binary_Binary",
+        "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization\nwith serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>.\nSee also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "binary"
+      }
+    ]
+  },
+  "query": null,
+  "migrate": null,
+  "sudo": null,
+  "responses": null
+}

@@ -12,16 +12,15 @@ use crate::{
     DefaultOptionalNftExtension, DefaultOptionalNftExtensionMsg, NftExtensionMsg,
 };
 use anyhow::Result;
-use cosmwasm_std::testing::{mock_dependencies, MockApi};
+use cosmwasm_std::{MigrateInfo, testing::{MockApi, mock_dependencies}};
 use cosmwasm_std::{
     Addr, Binary, Decimal, Deps, DepsMut, Empty, Env, MessageInfo, QuerierWrapper, Response,
-    StdError, Timestamp,
+    Timestamp,
 };
 
 use cw_multi_test::{App, Contract, ContractWrapper, Executor};
-use cw_ownable::{Ownership, OwnershipError};
+use cw_ownable::Ownership;
 use cw_utils::Expiration;
-use url::ParseError;
 pub const ADMIN_ADDR: &str = "admin";
 pub const CREATOR_ADDR: &str = "creator";
 pub const MINTER_ADDR: &str = "minter";
@@ -86,6 +85,7 @@ pub fn migrate(
     deps: DepsMut,
     env: Env,
     msg: Cw721MigrateMsg,
+    info: MigrateInfo,
 ) -> Result<Response, Cw721ContractError> {
     let contract = Cw721OnchainExtensions::default();
     contract.migrate(deps, env, msg, "contract_name", "contract_version")
@@ -215,7 +215,7 @@ fn test_operator() {
         .unwrap();
     assert_eq!(owner_response.owner, other.to_string());
     // check previous owner cant transfer
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             nft_owner.clone(),
             cw721.clone(),
@@ -225,10 +225,8 @@ fn test_operator() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::Ownership(OwnershipError::NotOwner));
+        .unwrap_err();
+    assert!(err.to_string().contains("Caller is not the contract's current owner"));
 
     // transfer back to previous owner
     app.execute_contract(
@@ -311,7 +309,7 @@ fn test_operator() {
     .unwrap();
 
     // other not operator anymore and cant send
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             other.clone(),
             cw721,
@@ -321,10 +319,8 @@ fn test_operator() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::Ownership(OwnershipError::NotOwner));
+        .unwrap_err();
+    assert!(err.to_string().contains("Caller is not the contract's current owner"));
 }
 
 #[test]
@@ -392,7 +388,7 @@ fn test_instantiate() {
         let code_id_latest = app.store_code(cw721_base_latest_contract());
         let mut invalid_init_msg = init_msg.clone();
         invalid_init_msg.creator = Some("invalid".to_string());
-        let error: Cw721ContractError = app
+        let error = app
             .instantiate_contract(
                 code_id_latest,
                 admin.clone(),
@@ -401,17 +397,12 @@ fn test_instantiate() {
                 "cw721-base",
                 Some(admin.to_string()),
             )
-            .unwrap_err()
-            .downcast()
-            .unwrap();
-        assert_eq!(
-            error,
-            Cw721ContractError::Std(StdError::generic_err("Error decoding bech32"))
-        );
+            .unwrap_err();
+        assert!(error.to_string().contains("parse failed"));
         // invalid minter
         let mut invalid_init_msg = init_msg.clone();
         invalid_init_msg.minter = Some("invalid".to_string());
-        let error: Cw721ContractError = app
+        let error = app
             .instantiate_contract(
                 code_id_latest,
                 admin.clone(),
@@ -420,17 +411,12 @@ fn test_instantiate() {
                 "cw721-base",
                 Some(admin.to_string()),
             )
-            .unwrap_err()
-            .downcast()
-            .unwrap();
-        assert_eq!(
-            error,
-            Cw721ContractError::Std(StdError::generic_err("Error decoding bech32"))
-        );
+            .unwrap_err();
+        assert!(error.to_string().contains("parse failed"));
         // invalid withdraw addr
         let mut invalid_init_msg = init_msg.clone();
         invalid_init_msg.withdraw_address = Some("invalid".to_string());
-        let error: Cw721ContractError = app
+        let error = app
             .instantiate_contract(
                 code_id_latest,
                 admin.clone(),
@@ -439,13 +425,8 @@ fn test_instantiate() {
                 "cw721-base",
                 Some(admin.to_string()),
             )
-            .unwrap_err()
-            .downcast()
-            .unwrap();
-        assert_eq!(
-            error,
-            Cw721ContractError::Std(StdError::generic_err("Error decoding bech32"))
-        );
+            .unwrap_err();
+        assert!(error.to_string().contains("parse failed"));
         // invalid payment addr
         let mut invalid_init_msg = init_msg.clone();
         invalid_init_msg.collection_info_extension = Some(CollectionExtensionMsg {
@@ -460,7 +441,7 @@ fn test_instantiate() {
                 share: Decimal::bps(1000),
             }),
         });
-        let error: Cw721ContractError = app
+        let error = app
             .instantiate_contract(
                 code_id_latest,
                 admin.clone(),
@@ -469,13 +450,8 @@ fn test_instantiate() {
                 "cw721-base",
                 Some(admin.to_string()),
             )
-            .unwrap_err()
-            .downcast()
-            .unwrap();
-        assert_eq!(
-            error,
-            Cw721ContractError::Std(StdError::generic_err("Error decoding bech32"))
-        );
+            .unwrap_err();
+        assert!(error.to_string().contains("parse failed"));
     }
     // test case: backward compatibility using instantiate msg from a 0.16 version on latest contract.
     // This ensures existing 3rd party contracts doesnt need to update as well.
@@ -601,7 +577,7 @@ fn test_update_nft_metadata() {
     );
 
     // nft owner cant update - only creator is allowed
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             nft_owner,
             cw721.clone(),
@@ -626,13 +602,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::NotCreator {});
+        .unwrap_err();
+    assert!(err.to_string().contains("Caller is not collection creator"));
 
     // update invalid token uri
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -657,16 +631,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(
-        err,
-        Cw721ContractError::ParseError(ParseError::RelativeUrlWithoutBase)
-    );
+        .unwrap_err();
+    assert!(err.to_string().contains("relative URL without a base"));
 
     // invalid image URL
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -691,16 +660,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(
-        err,
-        Cw721ContractError::ParseError(ParseError::RelativeUrlWithoutBase)
-    );
+        .unwrap_err();
+    assert!(err.to_string().contains("relative URL without a base"));
 
     // invalid external url
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -725,16 +689,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(
-        err,
-        Cw721ContractError::ParseError(ParseError::RelativeUrlWithoutBase)
-    );
+        .unwrap_err();
+    assert!(err.to_string().contains("relative URL without a base"));
 
     // invalid animation url
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -759,16 +718,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(
-        err,
-        Cw721ContractError::ParseError(ParseError::RelativeUrlWithoutBase)
-    );
+        .unwrap_err();
+    assert!(err.to_string().contains("relative URL without a base"));
 
     // invalid youtube url
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -793,13 +747,8 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(
-        err,
-        Cw721ContractError::ParseError(ParseError::RelativeUrlWithoutBase)
-    );
+        .unwrap_err();
+    assert!(err.to_string().contains("relative URL without a base"));
 
     // no image data (empty)
     app.execute_contract(
@@ -1006,7 +955,7 @@ fn test_update_nft_metadata() {
     );
 
     // invalid trait type (empty)
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -1035,13 +984,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::TraitTypeEmpty {});
+        .unwrap_err();
+    assert!(err.to_string().contains("Trait type in metadata must not be empty"));
 
     // invalid trait value (empty)
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -1070,13 +1017,11 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::TraitValueEmpty {});
+        .unwrap_err();
+    assert!(err.to_string().contains("Trait value in metadata must not be empty"));
 
     // invalid trait display type (empty)
-    let err: Cw721ContractError = app
+    let err = app
         .execute_contract(
             creator.clone(),
             cw721.clone(),
@@ -1105,10 +1050,8 @@ fn test_update_nft_metadata() {
             },
             &[],
         )
-        .unwrap_err()
-        .downcast()
-        .unwrap();
-    assert_eq!(err, Cw721ContractError::TraitDisplayTypeEmpty {});
+        .unwrap_err();
+    assert!(err.to_string().contains("Trait display type in metadata must not be empty"));
 
     // proper update
     let new_nft_metadata_msg = NftExtensionMsg {

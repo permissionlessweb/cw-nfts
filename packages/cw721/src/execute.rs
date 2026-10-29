@@ -149,7 +149,7 @@ pub fn send_nft<TNftExtension, TCustomResponseMsg>(
 ) -> Result<Response<TCustomResponseMsg>, Cw721ContractError>
 where
     TNftExtension: Cw721State,
-    TCustomResponseMsg: CustomMsg,
+    TCustomResponseMsg: CustomMsg + schemars::JsonSchema,
 {
     // Transfer token
     transfer_nft::<TNftExtension>(deps, env, info, &contract, &token_id)?;
@@ -869,6 +869,6 @@ where
     TNftExtensionMsg: Cw721CustomMsg + StateFactory<TNftExtension>,
     TCollectionExtension: Cw721State + ToAttributesState + FromAttributesState,
     TCollectionExtensionMsg: Cw721CustomMsg + StateFactory<TCollectionExtension>,
-    TCustomResponseMsg: CustomMsg,
+    TCustomResponseMsg: CustomMsg + schemars::JsonSchema,
 {
 }
