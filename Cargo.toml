@@ -14,8 +14,8 @@ version       = "0.22.0"
 [workspace.dependencies]
 anyhow          = "^1.0"
 bech32          = "^0.11"
-cosmwasm-schema = { version = "=4.0.0-zk" }
-cosmwasm-std = { version = "=4.0.0-zk" }
+cosmwasm-schema = { version = "=4.1.0" }
+cosmwasm-std = { version = "=4.1.0" }
 cw-multi-test = { package = "abstract-cw-multi-test", version = "=3.0.0-rc" }
 cw-ownable = { version = "3.0.1" }
 cw-storage-plus = { version = "3.0.1" }
@@ -31,17 +31,16 @@ thiserror = "^1.0"
 url = "^2.5"
 [patch.crates-io]
 
-abstract-cw-multi-test = { path = "../cw-multi-test-fork" }
-cosmwasm-schema = { path = "../cosmwasm/packages/schema" }
-cosmwasm-std = { path = "../cosmwasm/packages/std" }
-cw-ownable = { path = "../cw-plus-plus/packages/ownable" }
-cw-storage-plus = { path = "../cw-storage-plus" }
-cw-utils = { path = "../cw-minus/packages/cw-utils" }
-cw2 = { path = "../cw-minus/packages/cw2" }
-cw20 = { path = "../cw-plus/packages/cw20" }
-
-cw20-ics20 = { path = "../cw-plus/contracts/cw20-ics20" }
-cw-controllers = { path = "../cw-minus/packages/controllers" }
+abstract-cw-multi-test = { git = "https://github.com/permissionlessweb/cw-multi-test-fork", rev = "2eb14e1f0b66caed897a3c4a69a4c57282b565c0" }
+cw-ownable = { git = "https://github.com/permissionlessweb/cw-plus-plus", rev = "2fa6fe3fdf5f0c929a0e3b504320ead4a0553c05" }
+cw-storage-plus = { git = "https://github.com/permissionlessweb/cw-storage-plus", rev = "b303f445113c95427b57fc825bc033fdf3e6fee0" }
+cw-utils = { git = "https://github.com/permissionlessweb/cw-minus", rev = "14194672e846a56e5a37a4a3b449e375f6f2b496" }
+cw2 = { git = "https://github.com/permissionlessweb/cw-minus", rev = "14194672e846a56e5a37a4a3b449e375f6f2b496" }
+cw20 = { git = "https://github.com/permissionlessweb/cw-plus", rev = "f66883649c08d2671cc7d66cdf4f7f6abec4e44d" }
+cw20-ics20 = { git = "https://github.com/permissionlessweb/cw-plus", rev = "f66883649c08d2671cc7d66cdf4f7f6abec4e44d" }
+cw-controllers = { git = "https://github.com/permissionlessweb/cw-minus", rev = "14194672e846a56e5a37a4a3b449e375f6f2b496" }
+cosmwasm-schema = { git = "https://github.com/permissionlessweb/cosmwasm", rev = "e20646e2d9a9c4f93e993eb0656afa795f6e387a" }
+cosmwasm-std = { git = "https://github.com/permissionlessweb/cosmwasm", rev = "e20646e2d9a9c4f93e993eb0656afa795f6e387a" }
 [profile.release]
 debug            = false
 debug-assertions = false

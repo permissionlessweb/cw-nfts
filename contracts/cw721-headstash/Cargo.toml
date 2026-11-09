@@ -1,0 +1,28 @@
+[package]
+authors = ["Terp Network"]
+description = "Headstash airdrop as a cw721 collection: eligible-key NFTs, one signed mint batch, and rseed-commitment rotation for accounts that have not registered."
+documentation = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+name = "cw721-headstash"
+repository = { workspace = true }
+rust-version = { workspace = true }
+version = { workspace = true }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+doctest = false
+
+[features]
+library = []
+
+[dependencies]
+cosmwasm-schema = { workspace = true }
+cosmwasm-std = { workspace = true }
+cw-storage-plus = { workspace = true }
+cw721 = { workspace = true }
+headstash-wire = { path = "../../../headstash/wire" }
+schemars = { workspace = true }
+serde = { workspace = true }
+thiserror = { workspace = true }
